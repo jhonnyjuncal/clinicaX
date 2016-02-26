@@ -20,6 +20,4 @@
     <string name="login_usuario">Login</string>
     <string name="sin_login">Continuar</string>
     <string name="dummy_content">APLICACION\nDE\nPRUEBA</string>
-    <string name="title_activity_sesion">SesionActivity</string>
-    <string name="title_activity_sesion2">Sesion2Activity</string>
 </resources>
