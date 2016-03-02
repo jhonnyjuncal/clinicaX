@@ -35,7 +35,9 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+
+    /**
+     * Estado de la conexion con el servidor
+     */
+    private String estadoConexion = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -324,10 +331,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-        private String query = "";
+        private String query = "SELECT * FROM usuarios WHERE user = ? and pass = ? ";
         private final String mEmail;
         private final String mPassword;
         private final Activity mActivity;
+        private Connection conexion = null;
 
         UserLoginTask(String email, String password, Activity activity) {
             mEmail = email;
@@ -344,30 +352,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String nombreUsuario = "";
 
             try {
-                // The newInstance() call is a work around for some broken Java implementations
-                //con esto nos aseguramos de que se crean los recursos estaticos necesarios
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 //final String url = "jdbc:mysql://jhonnyjuncalats.ddns.net:3306/clinica";
-                final String url = "jdbc:mysql://212.0.100.98:3306/clinica";
-                Connection con = DriverManager.getConnection(url, "clinica", "123456");
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(query);
+                //final String url = "jdbc:mysql://212.0.100.98:3306/clinica";
+                final String url = "jdbc:mysql://sql8.freesqldatabase.com:3306/sql8108831";
+                conexion = DriverManager.getConnection(url, "sql8108831", "cbfV41GyyX");
 
-                while (rs.next()) {
-                    //en cada iteracion tenemos un resultado concreto
-                    idUsuario = rs.getInt(0);
-                    usuario = rs.getString(1);
-                    password = rs.getString(2);
-                    nombreUsuario = rs.getString(3);
+                if (conexion != null) {
+                    PreparedStatement ps = conexion.prepareStatement(query);
+                    ps.setString(1, mEmail);
+                    ps.setString(2, mPassword);
+                    ResultSet rs = ps.executeQuery();
 
-                    // publishProgress(++count);
-                    // Terminar lo antes posible si se ha llamadao al cancel() del asynctask
-                    if (isCancelled())
-                        break;
+                    if(rs != null) {
+                        int contador = 0;
+                        while (rs.next()) {
+                            idUsuario = rs.getInt("id");
+                            usuario = rs.getString("user");
+                            password = rs.getString("pass");
+                            nombreUsuario = rs.getString("nombre");
+                            contador++;
+                        }
+                        System.out.println("Se han encontrado " + contador + " usuarios");
+                    }
                 }
+            } catch (SQLException sql) {
+                sql.printStackTrace();
+                //estadoConexion = "Se ha producido un error al intentar conectar con la base de datos.";
+                estadoConexion = sql.getCause().toString();
+                return false;
+
             } catch (Exception e) {
                 e.printStackTrace();
+                //estadoConexion = "Se ha producido un error inesperado. Intentela mas tarde.";
+                estadoConexion = e.getCause().toString();
                 return false;
+
+            }finally {
+                if(conexion != null) {
+                    try {
+                        conexion.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
 
             if(idUsuario != null) {
@@ -396,9 +426,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(estadoConexion != null && estadoConexion.length() > 0) {
+                    Toast.makeText(LoginActivity.this, estadoConexion, Toast.LENGTH_LONG).show();
+
+                }else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 

@@ -22,4 +22,5 @@
     <string name="dummy_content">APLICACION\nDE\nPRUEBA</string>
     <string name="title_activity_sesion">SesionActivity</string>
     <string name="title_activity_sesion2">Sesion2Activity</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
