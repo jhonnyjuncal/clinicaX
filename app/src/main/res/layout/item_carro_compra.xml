@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fbf713">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center"
+        android:background="#a19a9a"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView2"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:id="@+id/button1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView3" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:id="@+id/button2" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="right"
+        android:layout_margin="5dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/button3"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="wishlist"
+            android:id="@+id/button4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="225"
+            android:id="@+id/textView4"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#f40d0d"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,37 +1,46 @@
 package clinica.jhonny.com.clinicax;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import clinica.jhonny.com.adapters.CustomAdapterBuscadorClientes;
+import clinica.jhonny.com.model.Cliente;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private EditText textBuscar;
     private Button btnBuscar;
     private ListView listaResultados;
+    public MainActivity customListView = null;
+    private ListView listView;
+    private CustomAdapterBuscadorClientes adapter;
 
     private Connection conexion = null;
-    private String query = "SELECT * FROM clientes WHERE nombre like ? ";
+    private String query = "SELECT * FROM clientes WHERE nombre like %?% ";
+
+    public ArrayList<Cliente> customListViewValuesArr = new ArrayList<Cliente>();
 
 
     @Override
@@ -42,9 +51,26 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_nav_main);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            customListView = this;
+
+            final Resources res = getResources();
+            listView = (ListView)findViewById(R.id.ListView01);  // List defined in XML ( See Below )
+
+            /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
+            setListData();
 
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Click ListItem Number " + position, Toast.LENGTH_LONG).show();
                 }
             });
+
             btnBuscar = (Button) findViewById(R.id.btnBuscarCliente);
             btnBuscar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                                 ResultSet rs = ps.executeQuery();
 
                                 int contador = 0;
-                                final ArrayList<Cliente> list = new ArrayList<Cliente>();
                                 if(rs != null) {
                                     while (rs.next()) {
                                         // setear los resultados en la lista a mostrar en pantalla
@@ -93,13 +119,16 @@ public class MainActivity extends AppCompatActivity {
                                         String email = rs.getString("email");
 
                                         Cliente cli = new Cliente(idCliente, nombre, apellidos, direccion, cp, telefono, email);
-                                        list.add(cli);
+                                        customListViewValuesArr.add(cli);
                                         contador++;
                                     }
                                 }
 
-                                final StableArrayAdapter adapter = new StableArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, list);
-                                listaResultados.setAdapter(adapter);
+                                //final StableArrayAdapter adapter = new StableArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, list);
+                                //listaResultados.setAdapter(adapter);
+
+                                adapter = new CustomAdapterBuscadorClientes(customListView, customListViewValuesArr, res);
+                                listView.setAdapter(adapter);
 
                                 //listaResultados.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listview_array));
                             }
@@ -114,28 +143,85 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<Cliente> {
+    /****** Function to set data in ArrayList *************/
+    public void setListData() {
 
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+        for(int i = 0; i < 11; i++) {
+            final Cliente sched = new Cliente();
 
-        public StableArrayAdapter(Context context, int textViewResourceId, List<Cliente> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                Cliente cli = (Cliente)objects.get(i);
-                String nombreCompleto = cli.getNombre() + " " + cli.getApellidos();
-                mIdMap.put(nombreCompleto, i);
-            }
+            /******* Firstly take data in model object ******/
+            sched.setNombre("Nombre " + i);
+            sched.setApellidos("Apellidos " + i);
+            sched.setEmail("Email " + i);
+
+            /******** Take Model Object in ArrayList **********/
+            customListViewValuesArr.add(sched);
         }
+    }
 
-        @Override
-        public long getItemId(int position) {
-            Cliente item = getItem(position);
-            return mIdMap.get(item);
+    /*****************  This function used by adapter ****************/
+    public void onItemClick(int mPosition) {
+        Cliente tempValues = (Cliente)customListViewValuesArr.get(mPosition);
+
+        // SHOW ALERT
+        Toast.makeText(customListView, "" + tempValues.getNombre() +
+                tempValues.getApellidos() + " - Email:" + tempValues.getEmail(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
+    }
 
-        @Override
-        public boolean hasStableIds() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.nav_drawer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
             return true;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

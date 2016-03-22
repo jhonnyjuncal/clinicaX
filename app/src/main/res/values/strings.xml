@@ -5,8 +5,6 @@
     <string name="navigation_drawer_open">Abrir menu desplegable</string>
     <string name="navigation_drawer_close">Cerrar menu desplegable</string>
     <string name="title_activity_login">Iniciar sesion</string>
-
-    <!-- Strings related to login -->
     <string name="prompt_email">Correo</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="action_sign_in">Acceso o registro</string>
@@ -23,4 +21,11 @@
     <string name="title_activity_sesion">SesionActivity</string>
     <string name="title_activity_sesion2">Sesion2Activity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="text_paypal">PayPal</string>
+    <string name="amount">10.99</string>
+    <string name="amount2">21.22</string>
+    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="text_nevagacion">Navegacion</string>
+    <string name="action_no_login">Sin login</string>
+    <string name="title_activity_carro_compra">Cesta</string>
 </resources>

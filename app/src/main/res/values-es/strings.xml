@@ -20,4 +20,10 @@
     <string name="login_usuario">Login</string>
     <string name="sin_login">Continuar</string>
     <string name="dummy_content">APLICACION\nDE\nPRUEBA</string>
+    <string name="text_paypal">PayPal</string>
+    <string name="buy">Comprar</string>
+    <string name="amount">10.99</string>
+    <string name="amount2">21.22</string>
+    <string name="text_nevagacion">Navegacion</string>
+    <string name="action_no_login">Sin login</string>
 </resources>

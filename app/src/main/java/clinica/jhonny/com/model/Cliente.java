@@ -1,4 +1,4 @@
-package clinica.jhonny.com.clinicax;
+package clinica.jhonny.com.model;
 
 import java.io.Serializable;
 
@@ -15,6 +15,11 @@ public class Cliente implements Serializable {
     private String cp;
     private String telefono;
     private String email;
+
+
+    public Cliente() {
+
+    }
 
     public Cliente(Integer idCliente, String nombre, String apellidos, String direccion, String cp, String telefono, String email) {
         this.idCliente = idCliente;

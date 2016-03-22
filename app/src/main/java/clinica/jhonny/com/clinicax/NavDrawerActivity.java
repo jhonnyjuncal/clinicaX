@@ -1,5 +1,6 @@
 package clinica.jhonny.com.clinicax;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,13 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class NavegationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+
+public class NavDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navegation);
+        setContentView(R.layout.activity_nav_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -27,8 +28,8 @@ public class NavegationActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(NavDrawerActivity.this, CarroCompraActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -55,7 +56,7 @@ public class NavegationActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navegation, menu);
+        getMenuInflater().inflate(R.menu.nav_drawer, menu);
         return true;
     }
 

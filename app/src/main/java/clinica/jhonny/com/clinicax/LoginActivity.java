@@ -99,6 +99,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button noLoginButton = (Button) findViewById(R.id.no_login_button);
+        noLoginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptWithoutLogin();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -202,6 +210,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password, this);
             mAuthTask.execute((Void) null);
         }
+    }
+
+    private void attemptWithoutLogin() {
+        Intent intent = new Intent(this, SesionActivity.class);
+        startActivity(intent);
     }
 
     private boolean isEmailValid(String email) {
