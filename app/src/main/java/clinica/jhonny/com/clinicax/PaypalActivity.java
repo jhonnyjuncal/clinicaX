@@ -120,6 +120,7 @@ public class PaypalActivity extends AppCompatActivity {
             */
 
             Integer cantidadAnterior = 0;
+            /*
             if(pressed.getId() == R.id.button1) {
                 if(Util.getCarroDeLaCompra().containsKey(1))
                     cantidadAnterior = Util.getCarroDeLaCompra().get(1);
@@ -140,6 +141,22 @@ public class PaypalActivity extends AppCompatActivity {
                     cantidadAnterior = Util.getCarroDeLaCompra().get(4);
                 Util.getCarroDeLaCompra().put(4, ++cantidadAnterior);
             }
+            */
+
+            switch(pressed.getId()) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+
         }catch(Exception ex) {
             ex.printStackTrace();
         }

@@ -3,14 +3,12 @@ package clinica.jhonny.com;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import clinica.jhonny.com.clinicax.R;
+import clinica.jhonny.com.model.ItemCesta;
 import clinica.jhonny.com.model.Producto;
 
 
@@ -19,7 +17,7 @@ import clinica.jhonny.com.model.Producto;
  */
 public class Util {
 
-    private static HashMap<Integer, Integer> mapaCarro = new HashMap<Integer, Integer>();
+    private static ArrayList<ItemCesta> listaCesta = new ArrayList<ItemCesta>();
     private static List<Producto> productos = new ArrayList<Producto>();
 
 
@@ -29,12 +27,13 @@ public class Util {
         return productos;
     }
 
-    public static HashMap<Integer, Integer> getCarroDeLaCompra() {
-        return mapaCarro;
+    public static ArrayList<ItemCesta> getCarroDeLaCompra() {
+        return listaCesta;
     }
 
     public static synchronized void decrementarArticulo(int position, TextView textView1, TextView textView2, Double precio) {
         try {
+            /*
             Set<Integer> claves = mapaCarro.keySet();
             Iterator<Integer> it = claves.iterator();
             int contador = 0;
@@ -51,6 +50,18 @@ public class Util {
                 }
                 contador++;
             }
+            */
+
+            for(int i=0; i<listaCesta.size(); i++) {
+                if(i == position) {
+                    ItemCesta ic = listaCesta.get(i);
+                    Integer cantidad = ic.getCantidad();
+                    ic.setCantidad(--cantidad);
+                    listaCesta.add(i, ic);
+                    textView1.setText(cantidad + " articulo(s)");
+                    textView2.setText((precio * cantidad) + " E");
+                }
+            }
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -58,6 +69,7 @@ public class Util {
 
     public static synchronized void incrementarArticulo(int position, TextView textView1, TextView textView2, Double precio) {
         try {
+            /*
             Set<Integer> claves = mapaCarro.keySet();
             Iterator<Integer> it = claves.iterator();
             int contador = 0;
@@ -71,6 +83,18 @@ public class Util {
                     break;
                 }
                 contador++;
+            }
+            */
+
+            for(int i=0; i<listaCesta.size(); i++) {
+                if(i == position) {
+                    ItemCesta ic = listaCesta.get(i);
+                    Integer cantidad = ic.getCantidad();
+                    ic.setCantidad(++cantidad);
+                    listaCesta.add(i, ic);
+                    textView1.setText(cantidad + " articulo(s)");
+                    textView2.setText((precio * cantidad) + " E");
+                }
             }
         }catch(Exception ex) {
             ex.printStackTrace();

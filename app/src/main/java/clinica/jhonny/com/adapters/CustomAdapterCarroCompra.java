@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,16 +17,17 @@ import java.util.Set;
 
 import clinica.jhonny.com.Util;
 import clinica.jhonny.com.clinicax.R;
+import clinica.jhonny.com.model.ItemCesta;
 import clinica.jhonny.com.model.Producto;
 
 
 /**
  * Created by jhonny on 21/03/2016.
  */
-public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
+public class CustomAdapterCarroCompra extends ArrayAdapter<ItemCesta> {
 
-    public CustomAdapterCarroCompra(Context context, List<Producto> productos) {
-        super(context, R.layout.item_carro_compra, productos);
+    public CustomAdapterCarroCompra(Context context, ArrayList<ItemCesta> listaCesta) {
+        super(context, R.layout.item_carro_compra, listaCesta);
     }
 
     @Override
@@ -42,12 +44,24 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
         }
 
         //Obteniendo instancia de la Tarea en la posición actual
-        final Producto producto = getItem(position);
+        final ItemCesta item = getItem(position);
 
+        /*
         Integer codigo = producto.getCodigo();
         Integer cantidad = 0;
+
         if(Util.getCarroDeLaCompra().containsKey(codigo))
             cantidad = Util.getCarroDeLaCompra().get(codigo);
+        */
+
+        Integer cantidad = 0;
+        if(Util.getCarroDeLaCompra() != null && !Util.getCarroDeLaCompra().isEmpty()) {
+            for(ItemCesta ic : Util.getCarroDeLaCompra()) {
+                if(item.getProducto().getCodigo().equals(ic.getProducto().getCodigo())) {
+                    cantidad = ic.getCantidad();
+                }
+            }
+        }
 
         ImageView imageView = (ImageView)listItemView.findViewById(R.id.imageView);
         TextView textView1 = (TextView)listItemView.findViewById(R.id.textView1);
@@ -60,19 +74,19 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
         final TextView textView4 = (TextView)listItemView.findViewById(R.id.textView4);
 
         // imagen del articulo
-        imageView.setImageDrawable(producto.getImagen().getDrawable());
+        imageView.setImageDrawable(item.getProducto().getImagen().getDrawable());
 
         // primer titulo del articulo
-        textView1.setText(producto.getTitulo1());
+        textView1.setText(item.getProducto().getTitulo1());
 
         // segundo titulo del articulo
-        textView2.setText(producto.getTitulo2());
+        textView2.setText(item.getProducto().getTitulo2());
 
         // decrementar cantidad de articulo
         boton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View vista) {
-                Util.decrementarArticulo(position, textView3, textView4, producto.getPrecio());
+                Util.decrementarArticulo(position, textView3, textView4, item.getProducto().getPrecio());
             }
         });
 
@@ -80,7 +94,7 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Util.incrementarArticulo(position, textView3, textView4, producto.getPrecio());
+                Util.incrementarArticulo(position, textView3, textView4, item.getProducto().getPrecio());
             }
         });
 
@@ -104,7 +118,7 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
         });
 
         // total de los productos
-        textView4.setText((producto.getPrecio() * cantidad) + " E");
+        textView4.setText((item.getProducto().getPrecio() * cantidad) + " E");
 
         return listItemView;
     }

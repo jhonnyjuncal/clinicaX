@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
-
 import clinica.jhonny.com.clinicax.MainActivity;
 import clinica.jhonny.com.clinicax.R;
 import clinica.jhonny.com.model.Cliente;
+
 
 /**
  * Created by jhonny on 06/03/2016.
@@ -58,7 +58,6 @@ public class CustomAdapterBuscadorClientes extends BaseAdapter implements View.O
         ViewHolder holder;
 
         if(convertView == null){
-
             /****** Inflate tabitem.xml file for each row ( Defined below ) *******/
             vi = inflater.inflate(R.layout.tabitem, null);
 
@@ -69,9 +68,10 @@ public class CustomAdapterBuscadorClientes extends BaseAdapter implements View.O
 
             /************  Set holder with LayoutInflater ************/
             vi.setTag(holder);
+
+        }else {
+            holder = (ViewHolder) vi.getTag();
         }
-        else
-            holder=(ViewHolder)vi.getTag();
 
         if(lista.size() <= 0) {
             holder.text.setText("No Data");
@@ -82,7 +82,6 @@ public class CustomAdapterBuscadorClientes extends BaseAdapter implements View.O
             tempValues = (Cliente)lista.get(position);
 
             /************  Set Model values in Holder elements ***********/
-
             holder.text.setText(tempValues.getNombre() + " " + tempValues.getApellidos());
             holder.text1.setText(tempValues.getEmail());
 
@@ -112,7 +111,6 @@ public class CustomAdapterBuscadorClientes extends BaseAdapter implements View.O
         @Override
         public void onClick(View arg0) {
             MainActivity sct = (MainActivity)activity;
-
             /****  Call  onItemClick Method inside CustomListViewAndroidExample Class ( See Below )****/
             sct.onItemClick(mPosition);
         }
@@ -127,6 +125,5 @@ public class CustomAdapterBuscadorClientes extends BaseAdapter implements View.O
 
         public TextView text;
         public TextView text1;
-        public TextView textWide;
     }
 }

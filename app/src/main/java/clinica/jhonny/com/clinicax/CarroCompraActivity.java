@@ -29,7 +29,7 @@ import clinica.jhonny.com.model.Producto;
 public class CarroCompraActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView lista = null;
-    private List<Producto> listaProductos = null;
+    //private List<Producto> listaProductos = null;
 
 
     @Override
@@ -59,6 +59,7 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
+            /*
             HashMap<Integer, Integer> mapaCarro = Util.getCarroDeLaCompra();
             if (mapaCarro != null && !mapaCarro.isEmpty()) {
                 List<Producto> productos = Util.getListaDeProductos(getApplicationContext());
@@ -77,6 +78,15 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
                 lista.setAdapter(new CustomAdapterCarroCompra(this, listaProductos));
 
             } else {
+                Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
+            }
+            */
+
+            if(Util.getCarroDeLaCompra() != null && !Util.getCarroDeLaCompra().isEmpty()) {
+                lista = (ListView) findViewById(R.id.listView);
+                lista.setAdapter(new CustomAdapterCarroCompra(this, Util.getCarroDeLaCompra()));
+
+            }else {
                 Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
             }
 
