@@ -15,8 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import clinica.jhonny.com.Util;
 import clinica.jhonny.com.adapters.CustomAdapterCarroCompra;
 import clinica.jhonny.com.model.Producto;
 
@@ -29,34 +34,55 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carro_compra);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_carro_compra);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Carro de la compra");
-        setSupportActionBar(toolbar);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            toolbar.setTitle("Carro de la compra");
+            setSupportActionBar(toolbar);
 
+    /*
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+            });
+    */
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            HashMap<Integer, Integer> mapaCarro = Util.getCarroDeLaCompra();
+            if (mapaCarro != null && !mapaCarro.isEmpty()) {
+                List<Producto> productos = Util.getListaDeProductos(getApplicationContext());
+                for(Producto pro : productos) {
+                    Integer codigo = pro.getCodigo();
+                    if(mapaCarro.containsKey(codigo)) {
+                        if(listaProductos == null)
+                            listaProductos = new ArrayList<Producto>();
+                        listaProductos.add(pro);
+                    }
+                }
             }
-        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            if (listaProductos != null && !listaProductos.isEmpty()) {
+                lista = (ListView) findViewById(R.id.listView);
+                lista.setAdapter(new CustomAdapterCarroCompra(this, listaProductos));
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            } else {
+                Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
+            }
 
-        listaProductos = getListaProductos();
-
-        lista = (ListView)findViewById(R.id.listView);
-        lista.setAdapter(new CustomAdapterCarroCompra(this, listaProductos));
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -114,34 +140,5 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private List<Producto> getListaProductos() {
-        List<Producto> lista = new ArrayList<Producto>();
-        try {
-            Producto pro1 = new Producto();
-            pro1.setCodigo(0001);
-            pro1.setTitulo1("Playmobil 1");
-            pro1.setTitulo2("Playmobil 1 de juguete");
-            pro1.setPrecio(20.14);
-            ImageView img1 = new ImageView(this);
-            img1.setImageResource(R.mipmap.producto1);
-            pro1.setImagen(img1);
-            lista.add(pro1);
-
-            Producto pro2 = new Producto();
-            pro2.setCodigo(0002);
-            pro2.setTitulo1("Playmobil 2");
-            pro2.setTitulo2("Playmobil 2 de juguete");
-            pro2.setPrecio(20.14);
-            ImageView img2 = new ImageView(this);
-            img2.setImageResource(R.mipmap.producto2);
-            pro2.setImagen(img2);
-            lista.add(pro1);
-
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        return lista;
     }
 }

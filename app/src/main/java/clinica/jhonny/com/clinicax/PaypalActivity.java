@@ -83,7 +83,8 @@ public class PaypalActivity extends AppCompatActivity {
                     //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                     // mostrar la ventana del carro de la compra
-                    
+                    Intent intent = new Intent(PaypalActivity.this, CarroCompraActivity.class);
+                    startActivity(intent);
                 }
             });
 
@@ -119,10 +120,26 @@ public class PaypalActivity extends AppCompatActivity {
             */
 
             Integer cantidadAnterior = 0;
-            if(Util.mapaCarro.containsKey(String.valueOf(pressed.getId())))
-                cantidadAnterior = Util.mapaCarro.get(String.valueOf(pressed.getId()));
-            Util.mapaCarro.put(pressed.getId(), ++cantidadAnterior);
+            if(pressed.getId() == R.id.button1) {
+                if(Util.getCarroDeLaCompra().containsKey(1))
+                    cantidadAnterior = Util.getCarroDeLaCompra().get(1);
+                Util.getCarroDeLaCompra().put(1, ++cantidadAnterior);
 
+            }else if(pressed.getId() == R.id.button2) {
+                if(Util.getCarroDeLaCompra().containsKey(2))
+                    cantidadAnterior = Util.getCarroDeLaCompra().get(2);
+                Util.getCarroDeLaCompra().put(2, ++cantidadAnterior);
+
+            }else if(pressed.getId() == R.id.button3) {
+                if(Util.getCarroDeLaCompra().containsKey(3))
+                    cantidadAnterior = Util.getCarroDeLaCompra().get(3);
+                Util.getCarroDeLaCompra().put(3, ++cantidadAnterior);
+
+            }else if(pressed.getId() == R.id.button4) {
+                if(Util.getCarroDeLaCompra().containsKey(4))
+                    cantidadAnterior = Util.getCarroDeLaCompra().get(4);
+                Util.getCarroDeLaCompra().put(4, ++cantidadAnterior);
+            }
         }catch(Exception ex) {
             ex.printStackTrace();
         }

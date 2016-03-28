@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import clinica.jhonny.com.Util;
 import clinica.jhonny.com.clinicax.R;
@@ -21,19 +24,13 @@ import clinica.jhonny.com.model.Producto;
  */
 public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
 
-    private final Context context;
-    private List<Producto> productos;
-
-
     public CustomAdapterCarroCompra(Context context, List<Producto> productos) {
-        super(context, R.layout.item_carro_compra);
-        this.context = context;
-        this.productos = productos;
+        super(context, R.layout.item_carro_compra, productos);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Salvando la referencia del View de la fila
         View listItemView = convertView;
@@ -44,30 +41,70 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<Producto> {
             listItemView = inflater.inflate(R.layout.item_carro_compra, parent, false);
         }
 
-        Producto producto = productos.get(position);
+        //Obteniendo instancia de la Tarea en la posición actual
+        final Producto producto = getItem(position);
+
         Integer codigo = producto.getCodigo();
         Integer cantidad = 0;
-        if(Util.mapaCarro.containsKey(codigo))
-            cantidad = Util.mapaCarro.get(codigo);
+        if(Util.getCarroDeLaCompra().containsKey(codigo))
+            cantidad = Util.getCarroDeLaCompra().get(codigo);
 
-        // datos de item_carro_compra
         ImageView imageView = (ImageView)listItemView.findViewById(R.id.imageView);
         TextView textView1 = (TextView)listItemView.findViewById(R.id.textView1);
-        textView1.setText(producto.getTitulo1());
         TextView textView2 = (TextView)listItemView.findViewById(R.id.textView2);
-        textView2.setText(producto.getTitulo2());
         Button boton1 = (Button)listItemView.findViewById(R.id.button1);
         Button boton2 = (Button)listItemView.findViewById(R.id.button2);
-        TextView textView3 = (TextView)listItemView.findViewById(R.id.textView3);
-        textView3.setText(cantidad + " articulo(s)");
+        final TextView textView3 = (TextView)listItemView.findViewById(R.id.textView3);
         Button boton3 = (Button)listItemView.findViewById(R.id.button3);
         Button boton4 = (Button)listItemView.findViewById(R.id.button4);
-        TextView textView4 = (TextView)listItemView.findViewById(R.id.textView4);
-        textView4.setText(producto.getPrecio() + " E");
+        final TextView textView4 = (TextView)listItemView.findViewById(R.id.textView4);
 
-        //Obteniendo instancia de la Tarea en la posición actual
-        getItem(position);
+        // imagen del articulo
+        imageView.setImageDrawable(producto.getImagen().getDrawable());
 
+        // primer titulo del articulo
+        textView1.setText(producto.getTitulo1());
+
+        // segundo titulo del articulo
+        textView2.setText(producto.getTitulo2());
+
+        // decrementar cantidad de articulo
+        boton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vista) {
+                Util.decrementarArticulo(position, textView3, textView4, producto.getPrecio());
+            }
+        });
+
+        // incrementar cantidad de articulo
+        boton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Util.incrementarArticulo(position, textView3, textView4, producto.getPrecio());
+            }
+        });
+
+        // cantidad de articulos a comprar
+        textView3.setText(cantidad + " articulo(s)");
+
+        // borrar de la cesta de productos
+        boton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // añadir a la lista de deseos
+        boton4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // total de los productos
+        textView4.setText((producto.getPrecio() * cantidad) + " E");
 
         return listItemView;
     }
