@@ -19,7 +19,11 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 import clinica.jhonny.com.Util;
+import clinica.jhonny.com.model.ItemCesta;
+import clinica.jhonny.com.model.Producto;
 
 
 /**
@@ -106,57 +110,45 @@ public class PaypalActivity extends AppCompatActivity {
 
     public void onBuyPressed(View pressed) {
         try {
-            /*
-            if (pressed.getId() == R.id.button1) {
-                thingToBuy = new PayPalPayment(new BigDecimal(precio1), "EUR", "Painting 1", PayPalPayment.PAYMENT_INTENT_SALE);
-            } else if (pressed.getId() == R.id.button2) {
-                thingToBuy = new PayPalPayment(new BigDecimal(precio2), "EUR", "Painting 2", PayPalPayment.PAYMENT_INTENT_SALE);
-            }
-
-            Intent intent = new Intent(PaypalActivity.this, PaymentActivity.class);
-            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-            //intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-            startActivityForResult(intent, REQUEST_CODE_PAYMENT);
-            */
-
-            Integer cantidadAnterior = 0;
-            /*
-            if(pressed.getId() == R.id.button1) {
-                if(Util.getCarroDeLaCompra().containsKey(1))
-                    cantidadAnterior = Util.getCarroDeLaCompra().get(1);
-                Util.getCarroDeLaCompra().put(1, ++cantidadAnterior);
-
-            }else if(pressed.getId() == R.id.button2) {
-                if(Util.getCarroDeLaCompra().containsKey(2))
-                    cantidadAnterior = Util.getCarroDeLaCompra().get(2);
-                Util.getCarroDeLaCompra().put(2, ++cantidadAnterior);
-
-            }else if(pressed.getId() == R.id.button3) {
-                if(Util.getCarroDeLaCompra().containsKey(3))
-                    cantidadAnterior = Util.getCarroDeLaCompra().get(3);
-                Util.getCarroDeLaCompra().put(3, ++cantidadAnterior);
-
-            }else if(pressed.getId() == R.id.button4) {
-                if(Util.getCarroDeLaCompra().containsKey(4))
-                    cantidadAnterior = Util.getCarroDeLaCompra().get(4);
-                Util.getCarroDeLaCompra().put(4, ++cantidadAnterior);
-            }
-            */
-
+            ItemCesta item = null;
+            int nuevaCantidad = 0;
+            int posicionEnLista = 0;
             switch(pressed.getId()) {
-                case 1:
+                case R.id.button1: posicionEnLista = 0; break;
+                case R.id.button2: posicionEnLista = 1; break;
+                case R.id.button3: posicionEnLista = 2; break;
+                case R.id.button4: posicionEnLista = 3; break;
+            }
 
-                    break;
-                case 2:
+            Producto producto = Util.getListaDeProductos(this).get(posicionEnLista);
 
-                    break;
-                case 3:
+            if(Util.getCarroDeLaCompra().isEmpty()) {
+                ItemCesta ic = new ItemCesta();
+                ic.setProducto(producto);
+                ic.setCantidad(1);
+                Util.getCarroDeLaCompra().add(ic);
 
-                    break;
-                case 4:
+            }else {
+                if(!Util.existeProductoEnElCarroDeLaCompra(producto)) {
+                    item = new ItemCesta();
+                    item.setCantidad(1);
+                    item.setProducto(producto);
+                    Util.getCarroDeLaCompra().add(item);
 
-                    break;
-
+                }else {
+                    int posicion = 0;
+                    for(int i=0; i<Util.getCarroDeLaCompra().size(); i++) {
+                        item = Util.getCarroDeLaCompra().get(i);
+                        if (Util.existeProductoEnElCarroDeLaCompra(item.getProducto())) {
+                            nuevaCantidad = item.getCantidad();
+                            posicion = i;
+                            break;
+                        }
+                    }
+                    item.setCantidad(++nuevaCantidad);
+                    Util.getCarroDeLaCompra().set(posicion, item);
+                }
+            }
         }catch(Exception ex) {
             ex.printStackTrace();
         }

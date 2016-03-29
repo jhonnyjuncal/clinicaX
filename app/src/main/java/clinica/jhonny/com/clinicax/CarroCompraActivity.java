@@ -1,10 +1,6 @@
 package clinica.jhonny.com.clinicax;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,23 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import clinica.jhonny.com.Util;
 import clinica.jhonny.com.adapters.CustomAdapterCarroCompra;
-import clinica.jhonny.com.model.Producto;
+import clinica.jhonny.com.model.ItemCesta;
 
 
 public class CarroCompraActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView lista = null;
-    //private List<Producto> listaProductos = null;
 
 
     @Override
@@ -42,15 +32,11 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
             toolbar.setTitle("Carro de la compra");
             setSupportActionBar(toolbar);
 
-    /*
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
-            });
-    */
+            TextView textSubTotal = (TextView)findViewById(R.id.textViewSubtotal);
+            textSubTotal.setText("0 EUR");
+            TextView textTotal = (TextView)findViewById(R.id.textViewTotal);
+            textTotal.setText("0 EUR");
+
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.setDrawerListener(toggle);
@@ -59,36 +45,17 @@ public class CarroCompraActivity extends AppCompatActivity implements Navigation
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            /*
-            HashMap<Integer, Integer> mapaCarro = Util.getCarroDeLaCompra();
-            if (mapaCarro != null && !mapaCarro.isEmpty()) {
-                List<Producto> productos = Util.getListaDeProductos(getApplicationContext());
-                for(Producto pro : productos) {
-                    Integer codigo = pro.getCodigo();
-                    if(mapaCarro.containsKey(codigo)) {
-                        if(listaProductos == null)
-                            listaProductos = new ArrayList<Producto>();
-                        listaProductos.add(pro);
-                    }
-                }
-            }
-
-            if (listaProductos != null && !listaProductos.isEmpty()) {
-                lista = (ListView) findViewById(R.id.listView);
-                lista.setAdapter(new CustomAdapterCarroCompra(this, listaProductos));
-
-            } else {
-                Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
-            }
-            */
-
             if(Util.getCarroDeLaCompra() != null && !Util.getCarroDeLaCompra().isEmpty()) {
                 lista = (ListView) findViewById(R.id.listView);
-                lista.setAdapter(new CustomAdapterCarroCompra(this, Util.getCarroDeLaCompra()));
+                CustomAdapterCarroCompra customAdapter = new CustomAdapterCarroCompra(this, Util.getCarroDeLaCompra(), textSubTotal, textTotal);
+                Util.setCustomAdapter(customAdapter);
+                lista.setAdapter(customAdapter);
 
             }else {
                 Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
             }
+
+            Util.actualizaTotales(textSubTotal, textTotal);
 
         }catch(Exception ex) {
             ex.printStackTrace();

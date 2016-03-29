@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import clinica.jhonny.com.adapters.CustomAdapterCarroCompra;
 import clinica.jhonny.com.clinicax.R;
 import clinica.jhonny.com.model.ItemCesta;
 import clinica.jhonny.com.model.Producto;
@@ -19,6 +20,7 @@ public class Util {
 
     private static ArrayList<ItemCesta> listaCesta = new ArrayList<ItemCesta>();
     private static List<Producto> productos = new ArrayList<Producto>();
+    private static CustomAdapterCarroCompra customAdapter;
 
 
     public static List<Producto> getListaDeProductos(Context context) {
@@ -31,75 +33,118 @@ public class Util {
         return listaCesta;
     }
 
-    public static synchronized void decrementarArticulo(int position, TextView textView1, TextView textView2, Double precio) {
-        try {
-            /*
-            Set<Integer> claves = mapaCarro.keySet();
-            Iterator<Integer> it = claves.iterator();
-            int contador = 0;
-            while(it.hasNext()) {
-                Integer clave = it.next();
-                if(contador == position) {
-                    Integer cantidad = mapaCarro.get(clave);
-                    if(cantidad > 0) {
-                        mapaCarro.put(clave, --cantidad);
-                        textView1.setText(cantidad + " articulo(s)");
-                        textView2.setText((precio * cantidad) + " E");
-                        break;
-                    }
-                }
-                contador++;
-            }
-            */
+    public static synchronized void decrementarArticulo(int position, TextView textView1, TextView textView2,
+            Double precio, TextView textSubTotal, TextView textTotal) {
 
-            for(int i=0; i<listaCesta.size(); i++) {
-                if(i == position) {
-                    ItemCesta ic = listaCesta.get(i);
-                    Integer cantidad = ic.getCantidad();
-                    ic.setCantidad(--cantidad);
-                    listaCesta.add(i, ic);
-                    textView1.setText(cantidad + " articulo(s)");
-                    textView2.setText((precio * cantidad) + " E");
-                }
+        try {
+            try {
+                ItemCesta ic = listaCesta.get(position);
+                Integer cantidad = ic.getCantidad();
+                ic.setCantidad(--cantidad);
+                listaCesta.set(position, ic);
+
+                textView1.setText(cantidad + " articulo(s)");
+                textView2.setText((precio * cantidad) + " EUR");
+
+                actualizaTotales(textSubTotal, textTotal);
+
+            }catch(Exception ex) {
+                ex.printStackTrace();
             }
         }catch(Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public static synchronized void incrementarArticulo(int position, TextView textView1, TextView textView2, Double precio) {
-        try {
-            /*
-            Set<Integer> claves = mapaCarro.keySet();
-            Iterator<Integer> it = claves.iterator();
-            int contador = 0;
-            while(it.hasNext()) {
-                Integer clave = it.next();
-                if(contador == position) {
-                    Integer cantidad = mapaCarro.get(clave);
-                    mapaCarro.put(clave, ++cantidad);
-                    textView1.setText(cantidad + " articulo(s)");
-                    textView2.setText((precio * cantidad) + " E");
-                    break;
-                }
-                contador++;
-            }
-            */
+    public static synchronized void incrementarArticulo(int position, TextView textView1, TextView textView2,
+            Double precio, TextView textSubTotal, TextView textTotal) {
 
-            for(int i=0; i<listaCesta.size(); i++) {
-                if(i == position) {
+        try {
+            ItemCesta ic = listaCesta.get(position);
+            Integer cantidad = ic.getCantidad();
+            ic.setCantidad(++cantidad);
+            listaCesta.set(position, ic);
+
+            textView1.setText(cantidad + " articulo(s)");
+            textView2.setText((precio * cantidad) + " EUR");
+
+            actualizaTotales(textSubTotal, textTotal);
+
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static boolean existeProductoEnElCarroDeLaCompra(Producto producto) {
+        try {
+            if(listaCesta == null || listaCesta.isEmpty()) {
+                return false;
+
+            }else {
+                for(int i=0; i<listaCesta.size(); i++) {
                     ItemCesta ic = listaCesta.get(i);
-                    Integer cantidad = ic.getCantidad();
-                    ic.setCantidad(++cantidad);
-                    listaCesta.add(i, ic);
-                    textView1.setText(cantidad + " articulo(s)");
-                    textView2.setText((precio * cantidad) + " E");
+                    if(ic.getProducto().getCodigo().equals(producto.getCodigo()))
+                        return true;
                 }
             }
         }catch(Exception ex) {
             ex.printStackTrace();
         }
+        return false;
     }
+
+    public static void actualizaTotales(TextView textSubTotal, TextView textTotal) {
+        try {
+            Double subtotal = 0.0;
+            Double total = 0.0;
+
+            if(Util.getCarroDeLaCompra() != null && !Util.getCarroDeLaCompra().isEmpty()) {
+                for(ItemCesta ic : Util.getCarroDeLaCompra()) {
+                    subtotal += ic.getCantidad() * ic.getProducto().getPrecio();
+                    total += ic.getCantidad() * ic.getProducto().getPrecio();
+                }
+            }
+
+            textSubTotal.setText(subtotal + " EUR");
+            textTotal.setText(total + " EUR");
+
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void eliminaProductoDeLaCesta(int posicion, TextView textSubTotal, TextView textTotal) {
+        try {
+            ItemCesta ic = listaCesta.get(posicion);
+            listaCesta.remove(ic);
+            customAdapter.remove(ic);
+
+            //actualizaAdaptador();
+            actualizaTotales(textSubTotal, textTotal);
+
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void setCustomAdapter(CustomAdapterCarroCompra customAdapter) {
+        Util.customAdapter = customAdapter;
+    }
+
+    private static void actualizaAdaptador() {
+        try {
+            if(customAdapter != null) {
+                customAdapter.clear();
+                customAdapter.addAll(listaCesta);
+                customAdapter.notifyDataSetChanged();
+            }
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
 
 
 
@@ -118,7 +163,7 @@ public class Util {
         pro2.setCodigo(0002);
         pro2.setTitulo1("Playmobil 2");
         pro2.setTitulo2("Muñeca de juguete");
-        pro2.setPrecio(20.14);
+        pro2.setPrecio(18.44);
         ImageView img2 = new ImageView(context);
         img2.setImageResource(R.mipmap.producto2);
         pro2.setImagen(img2);
