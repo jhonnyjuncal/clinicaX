@@ -71,10 +71,14 @@
         <activity
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CarroCompraActivity"
             android:label="@string/title_activity_carro_compra"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ToolBarColapsable"
+            android:label="@string/title_activity_tool_bar_colapsable"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

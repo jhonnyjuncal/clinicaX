@@ -199,4 +199,13 @@ public class FullscreenActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+    public void muestraColapsable(View vista) {
+        try {
+            Intent intent = new Intent(this, ToolBarColapsable.class);
+            startActivity(intent);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

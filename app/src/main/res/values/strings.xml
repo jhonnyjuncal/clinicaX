@@ -30,4 +30,6 @@
     <string name="text_nevagacion">Navegacion</string>
     <string name="action_no_login">Sin login</string>
     <string name="title_activity_carro_compra">Cesta</string>
+    <string name="title_activity_tool_bar_colapsable">ToolBarColapsable</string>
+    <string name="text_colap">Activity colapsable</string>
 </resources>

@@ -30,7 +30,7 @@
             android:id="@+id/fullscreen_content_controls"
             style="?metaButtonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="230dp"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/black_overlay"
             android:orientation="vertical"
@@ -71,6 +71,15 @@
                 android:layout_weight="1"
                 android:text="@string/text_nevagacion"
                 android:onClick="muestraVentanaNavegacion" />
+
+            <Button
+                android:id="@+id/dummy_button_5"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:text="@string/text_colap"
+                android:onClick="muestraColapsable" />
 
         </LinearLayout>
     </FrameLayout>
