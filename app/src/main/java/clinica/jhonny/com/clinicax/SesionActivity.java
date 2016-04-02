@@ -1,5 +1,6 @@
 package clinica.jhonny.com.clinicax;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,7 @@ public class SesionActivity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_sesion);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -66,25 +68,38 @@ public class SesionActivity extends AppCompatActivity implements NavigationView.
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        try {
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
+            Class destino = null;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            if (id == R.id.nav_login) {
+                destino = LoginActivity.class;
+            } else if (id == R.id.nav_continuar) {
+                destino = MainActivity.class;
+            } else if (id == R.id.nav_paypal) {
+                destino = PaypalActivity.class;
+            } else if (id == R.id.nav_navegacion) {
+                destino = NavDrawerActivity.class;
+            } else if (id == R.id.nav_colapsable) {
+                destino = ToolBarColapsable.class;
+            } else if (id == R.id.nav_share) {
+                destino = FullscreenActivity.class;
+            } else if (id == R.id.nav_send) {
+                destino = FullscreenActivity.class;
+            } else if (id == R.id.nav_dev) {
+                destino = FullscreenActivity.class;
+            }
 
-        } else if (id == R.id.nav_slideshow) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
 
-        } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, destino);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        }catch(Exception ex) {
+            ex.printStackTrace();
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

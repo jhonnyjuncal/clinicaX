@@ -19,28 +19,34 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_nav_drawer);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(NavDrawerActivity.this, CarroCompraActivity.class);
-                startActivity(intent);
-            }
-        });
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(NavDrawerActivity.this, CarroCompraActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -78,25 +84,38 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        try {
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
+            Class destino = null;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            if (id == R.id.nav_login) {
+                destino = LoginActivity.class;
+            } else if (id == R.id.nav_continuar) {
+                destino = MainActivity.class;
+            } else if (id == R.id.nav_paypal) {
+                destino = PaypalActivity.class;
+            } else if (id == R.id.nav_navegacion) {
+                destino = NavDrawerActivity.class;
+            } else if (id == R.id.nav_colapsable) {
+                destino = ToolBarColapsable.class;
+            } else if (id == R.id.nav_share) {
+                destino = FullscreenActivity.class;
+            } else if (id == R.id.nav_send) {
+                destino = FullscreenActivity.class;
+            } else if (id == R.id.nav_dev) {
+                destino = FullscreenActivity.class;
+            }
 
-        } else if (id == R.id.nav_slideshow) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
 
-        } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, destino);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        }catch(Exception ex) {
+            ex.printStackTrace();
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

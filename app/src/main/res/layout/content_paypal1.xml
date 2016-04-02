@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingTop="70dp">
-
+    android:orientation="vertical">
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -162,5 +161,30 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+-->
+
+
+
+
+
+    <include
+        layout="@layout/presentacion_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/presentacion_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/presentacion_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/presentacion_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
