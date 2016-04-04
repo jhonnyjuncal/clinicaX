@@ -19,11 +19,11 @@ import clinica.jhonny.com.model.Producto;
 public class Util {
 
     private static ArrayList<ItemCesta> listaCesta = new ArrayList<ItemCesta>();
-    private static List<Producto> productos = new ArrayList<Producto>();
+    private static ArrayList<Producto> productos = new ArrayList<Producto>();
     private static CustomAdapterCarroCompra customAdapter;
 
 
-    public static List<Producto> getListaDeProductos(Context context) {
+    public static ArrayList<Producto> getListaDeProductos(Context context) {
         if(productos.isEmpty())
             cargaDeDatos(context);
         return productos;

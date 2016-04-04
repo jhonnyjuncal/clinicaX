@@ -10,17 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import clinica.jhonny.com.Util;
 import clinica.jhonny.com.clinicax.R;
 import clinica.jhonny.com.model.ItemCesta;
-import clinica.jhonny.com.model.Producto;
 
 
 /**
@@ -62,6 +55,7 @@ public class CustomAdapterCarroCompra extends ArrayAdapter<ItemCesta> {
                 for (ItemCesta ic : Util.getCarroDeLaCompra()) {
                     if (item.getProducto().getCodigo().equals(ic.getProducto().getCodigo())) {
                         cantidad = ic.getCantidad();
+                        item.getProducto().setOrden(position);
                     }
                 }
             }

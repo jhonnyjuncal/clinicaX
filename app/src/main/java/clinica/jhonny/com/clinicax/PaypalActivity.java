@@ -15,7 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -25,10 +26,9 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
-
 import java.util.ArrayList;
-
 import clinica.jhonny.com.Util;
+import clinica.jhonny.com.adapters.CustomAdapterListaProductos;
 import clinica.jhonny.com.model.ItemCesta;
 import clinica.jhonny.com.model.Producto;
 
@@ -57,11 +57,6 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
     private static final int REQUEST_CODE_PROFILE_SHARING = 3;
 
-    /*
-    private String precio1 = "";
-    private String precio2 = "";
-    */
-
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(CONFIG_ENVIRONMENT)
             .clientId(CONFIG_CLIENT_ID)
@@ -72,7 +67,8 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
 
     private static final String CONFIG_RECEIVER_EMAIL = "jhonnyjuncal@gmail.com";
 
-    PayPalPayment thingToBuy = null;
+    private PayPalPayment thingToBuy = null;
+    private ListView lista = null;
 
 
     @Override
@@ -83,13 +79,6 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
-            /*
-            TextView text1 = (TextView) findViewById(R.id.textView1);
-            precio1 = text1.getText().toString();
-            TextView text2 = (TextView) findViewById(R.id.textView2);
-            precio2 = text2.getText().toString();
-            */
 
             inicializarServicioPaypal();
 
@@ -115,6 +104,16 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
+            ArrayList<Producto> productos = Util.getListaDeProductos(this);
+            if(productos != null && !productos.isEmpty()) {
+                lista = (ListView) findViewById(R.id.listView);
+                CustomAdapterListaProductos customAdapter = new CustomAdapterListaProductos(this, productos);
+                lista.setAdapter(customAdapter);
+
+            }else {
+                Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
+            }
+
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -125,53 +124,6 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
             Intent intent = new Intent(this, PayPalService.class);
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
             startService(intent);
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
-    public void onBuyPressed(View pressed) {
-        try {
-            ItemCesta item = null;
-            int nuevaCantidad = 0;
-            int posicionEnLista = 0;
-            switch(pressed.getId()) {
-                case R.id.button1: posicionEnLista = 0; break;
-                case R.id.button2: posicionEnLista = 1; break;
-                case R.id.button3: posicionEnLista = 2; break;
-                case R.id.button4: posicionEnLista = 3; break;
-            }
-
-            Producto producto = Util.getListaDeProductos(this).get(posicionEnLista);
-
-            if(Util.getCarroDeLaCompra().isEmpty()) {
-                ItemCesta ic = new ItemCesta();
-                ic.setProducto(producto);
-                ic.setCantidad(1);
-                Util.getCarroDeLaCompra().add(ic);
-
-            }else {
-                if(!Util.existeProductoEnElCarroDeLaCompra(producto)) {
-                    item = new ItemCesta();
-                    item.setCantidad(1);
-                    item.setProducto(producto);
-                    Util.getCarroDeLaCompra().add(item);
-
-                }else {
-                    int posicion = 0;
-                    for(int i=0; i<Util.getCarroDeLaCompra().size(); i++) {
-                        item = Util.getCarroDeLaCompra().get(i);
-                        if (Util.existeProductoEnElCarroDeLaCompra(item.getProducto())) {
-                            nuevaCantidad = item.getCantidad();
-                            posicion = i;
-                            break;
-                        }
-                    }
-                    item.setCantidad(++nuevaCantidad);
-                    Util.getCarroDeLaCompra().set(posicion, item);
-                }
-            }
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -311,5 +263,45 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
             ex.printStackTrace();
         }
         return true;
+    }
+
+    public void onBuyPressed(View vista) {
+        try {
+            ItemCesta item = null;
+            int nuevaCantidad = 0;
+            int id = vista.getId();
+
+            //Producto producto = Util.getListaDeProductos(this);
+
+            if(Util.getCarroDeLaCompra().isEmpty()) {
+                ItemCesta ic = new ItemCesta();
+                ic.setProducto(producto);
+                ic.setCantidad(1);
+                Util.getCarroDeLaCompra().add(ic);
+
+            }else {
+                if(!Util.existeProductoEnElCarroDeLaCompra(producto)) {
+                    item = new ItemCesta();
+                    item.setCantidad(1);
+                    item.setProducto(producto);
+                    Util.getCarroDeLaCompra().add(item);
+
+                }else {
+                    int posicion = 0;
+                    for(int i=0; i<Util.getCarroDeLaCompra().size(); i++) {
+                        item = Util.getCarroDeLaCompra().get(i);
+                        if (Util.existeProductoEnElCarroDeLaCompra(item.getProducto())) {
+                            nuevaCantidad = item.getCantidad();
+                            posicion = i;
+                            break;
+                        }
+                    }
+                    item.setCantidad(++nuevaCantidad);
+                    Util.getCarroDeLaCompra().set(posicion, item);
+                }
+            }
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

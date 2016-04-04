@@ -65,22 +65,42 @@
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+                android:textColor="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/no_login_button"
-                style="?android:textAppearanceSmall"
+                android:textColor="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_no_login"
+                android:textStyle="bold" />
+
+            <!--
+            <Button
+                android:id="@+id/no_login_button"
+                style="@style/boton_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_no_login"
                 android:textStyle="bold" />
-
+            -->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -12,6 +12,7 @@ public class Producto {
     private String titulo1;
     private String titulo2;
     private Double precio;
+    private Integer orden;
 
 
     public Integer getCodigo() {
@@ -52,5 +53,13 @@ public class Producto {
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 }

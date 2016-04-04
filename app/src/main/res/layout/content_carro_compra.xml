@@ -7,19 +7,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="clinica.jhonny.com.clinicax.CarroCompra"
     tools:showIn="@layout/app_bar_carro_compra">
-<!--
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView"
-        android:layout_marginBottom="110dp" >
--->
+
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/listView"
             android:layout_marginBottom="60dp" />
-<!--    </ScrollView>-->
 
     <LinearLayout
         android:orientation="vertical"
@@ -45,6 +38,7 @@
                     android:id="@+id/textView11"
                     android:layout_marginLeft="10dp"
                     android:textSize="18dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -63,7 +57,9 @@
                     android:layout_marginRight="10dp"
                     android:textSize="18dp"
                     android:textStyle="bold" />
+
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -85,6 +81,7 @@
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -102,7 +99,9 @@
                     android:layout_marginRight="10dp"
                     android:textSize="18dp"
                     android:textStyle="bold" />
+
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
