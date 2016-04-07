@@ -71,6 +71,7 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
     private ListView lista = null;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -263,45 +264,5 @@ public class PaypalActivity extends AppCompatActivity implements NavigationView.
             ex.printStackTrace();
         }
         return true;
-    }
-
-    public void onBuyPressed(View vista) {
-        try {
-            ItemCesta item = null;
-            int nuevaCantidad = 0;
-            int id = vista.getId();
-
-            //Producto producto = Util.getListaDeProductos(this);
-
-            if(Util.getCarroDeLaCompra().isEmpty()) {
-                ItemCesta ic = new ItemCesta();
-                ic.setProducto(producto);
-                ic.setCantidad(1);
-                Util.getCarroDeLaCompra().add(ic);
-
-            }else {
-                if(!Util.existeProductoEnElCarroDeLaCompra(producto)) {
-                    item = new ItemCesta();
-                    item.setCantidad(1);
-                    item.setProducto(producto);
-                    Util.getCarroDeLaCompra().add(item);
-
-                }else {
-                    int posicion = 0;
-                    for(int i=0; i<Util.getCarroDeLaCompra().size(); i++) {
-                        item = Util.getCarroDeLaCompra().get(i);
-                        if (Util.existeProductoEnElCarroDeLaCompra(item.getProducto())) {
-                            nuevaCantidad = item.getCantidad();
-                            posicion = i;
-                            break;
-                        }
-                    }
-                    item.setCantidad(++nuevaCantidad);
-                    Util.getCarroDeLaCompra().set(posicion, item);
-                }
-            }
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }

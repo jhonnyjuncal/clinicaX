@@ -41,4 +41,6 @@
     <color name="disabled_and_focused_text">#B27E6B</color>
     <color name="disabled_and_focused_start_multi">#F2E08F</color>
     <color name="disabled_and_focused_end_multi">#EAC896</color>
+
+    <color name="titulo_articulo">#D7530F</color>
 </resources>

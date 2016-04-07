@@ -40,14 +40,15 @@ public class Util {
             try {
                 ItemCesta ic = listaCesta.get(position);
                 Integer cantidad = ic.getCantidad();
-                ic.setCantidad(--cantidad);
-                listaCesta.set(position, ic);
+                if(cantidad > 0) {
+                    ic.setCantidad(--cantidad);
+                    listaCesta.set(position, ic);
 
-                textView1.setText(cantidad + " articulo(s)");
-                textView2.setText((precio * cantidad) + " EUR");
+                    textView1.setText(cantidad + " articulo(s)");
+                    textView2.setText((precio * cantidad) + " EUR");
 
-                actualizaTotales(textSubTotal, textTotal);
-
+                    actualizaTotales(textSubTotal, textTotal);
+                }
             }catch(Exception ex) {
                 ex.printStackTrace();
             }
@@ -143,6 +144,23 @@ public class Util {
         }
     }
 
+    public static Producto obtenerProductoPorCodigo(Integer codigo) {
+        Producto pro = null;
+        try {
+            if(productos != null && !productos.isEmpty()) {
+                for(Producto p : productos) {
+                    if(p.getCodigo().equals(codigo)) {
+                        pro = p;
+                        break;
+                    }
+                }
+            }
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return pro;
+    }
+
 
 
 
@@ -172,7 +190,8 @@ public class Util {
         Producto pro3 = new Producto();
         pro3.setCodigo(0003);
         pro3.setTitulo1("Playmobil 3");
-        pro3.setTitulo2("Un caballo");
+        pro3.setTitulo2("El caballo esta pensado para aumentar la coleccion de caballos de los niños " +
+                "ya que todos los caballos tienen el mismo tamaño");
         pro3.setPrecio(30.00);
         ImageView img3 = new ImageView(context);
         img3.setImageResource(R.mipmap.producto3);
@@ -182,7 +201,9 @@ public class Util {
         Producto pro4 = new Producto();
         pro4.setCodigo(0004);
         pro4.setTitulo1("Playmobil 4");
-        pro4.setTitulo2("Carro de caballos");
+        pro4.setTitulo2("Carro de caballos diseñado especificamente para niños entre los 2 y 8 años de edad.\n" +
+                "Los materiales utilizados no son toxicos y las piezas despues de ser desmontadas, tienen un " +
+                "tamaño superior a los 4 cms, tal y como establecen las normas de seguridad de la U.E.");
         pro4.setPrecio(50.0);
         ImageView img4 = new ImageView(context);
         img4.setImageResource(R.mipmap.producto4);

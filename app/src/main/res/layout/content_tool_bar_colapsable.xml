@@ -8,11 +8,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/contenidoColapasable"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="clinica.jhonny.com.clinicax.ToolBarColapsable"
     tools:showIn="@layout/activity_tool_bar_colapsable">
 
     <LinearLayout
+        android:id="@+id/linearContenido"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -39,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView5"
-            android:src="@mipmap/producto2" />
+            android:layout_margin="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView6"
-            android:src="@mipmap/producto3" />
+            android:layout_margin="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,28 +73,5 @@
             android:text="New Text"
             android:id="@+id/textView21" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView7"
-            android:src="@mipmap/producto1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView22" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView23" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView8"
-            android:src="@mipmap/producto4" />
     </LinearLayout>
 </RelativeLayout>
