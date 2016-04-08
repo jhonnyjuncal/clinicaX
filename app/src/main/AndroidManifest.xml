@@ -26,17 +26,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_buscador"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".PaypalActivity"
-            android:label="@string/app_name"
+            android:name=".ListaProductosActivity"
+            android:label="@string/title_activity_lista_productos"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+
         <activity
             android:name=".FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -48,10 +52,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SesionActivity"
             android:label="@string/title_activity_sesion"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
         <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
         <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
@@ -69,17 +75,14 @@
             android:exported="false" />
 
         <activity
-            android:name=".NavDrawerActivity"
-            android:label="@string/title_activity_nav_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".CarroCompraActivity"
             android:label="@string/title_activity_carro_compra"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ToolBarColapsable"
             android:label="@string/title_activity_tool_bar_colapsable"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

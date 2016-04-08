@@ -9,8 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="clinica.jhonny.com.clinicax.PaypalActivity"
-    tools:showIn="@layout/activity_paypal">
+    tools:context=".ListaProductosActivity"
+    tools:showIn="@layout/activity_lista_productos">
 
     <ListView
         android:layout_width="wrap_content"

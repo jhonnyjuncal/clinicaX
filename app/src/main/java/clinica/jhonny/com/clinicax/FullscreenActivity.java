@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import java.math.BigDecimal;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -184,25 +183,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
     public void muestraVentanaPaypal(View vista) {
         try {
-            Intent intent = new Intent(this, PaypalActivity.class);
-            startActivity(intent);
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void muestraVentanaNavegacion(View vista) {
-        try {
-            Intent intent = new Intent(this, NavDrawerActivity.class);
-            startActivity(intent);
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void muestraColapsable(View vista) {
-        try {
-            Intent intent = new Intent(this, ToolBarColapsable.class);
+            Intent intent = new Intent(this, ListaProductosActivity.class);
             startActivity(intent);
         }catch(Exception ex) {
             ex.printStackTrace();

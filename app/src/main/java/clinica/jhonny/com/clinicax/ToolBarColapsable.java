@@ -61,23 +61,6 @@ public class ToolBarColapsable extends AppCompatActivity {
 
     private void rellenarDatosDescripcion() {
         try {
-            /*
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View listItemView = inflater.inflate(R.layout.presentacion_articulo, parent, false);
-            */
-
-            /*
-            RelativeLayout rl = (RelativeLayout)findViewById(R.id.contenidoColapasable);
-            TextView tv1 = (TextView)rl.findViewById(R.id.textView13);
-            tv1.setText("Titulo 1");
-
-            TextView tv2 = (TextView)rl.findViewById(R.id.textView13);
-            tv2.setText("Aqui va una descripcion del articulo en cuestion");
-
-            TextView tv3 = (TextView)rl.findViewById(R.id.textView13);
-            tv3.setText("Aqui se añadiran algunas especificaciones tecnicas");
-            */
-
             LayoutInflater linf;
             CoordinatorLayout rl;
 

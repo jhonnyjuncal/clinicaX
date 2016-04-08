@@ -2,11 +2,16 @@
     <string name="app_name">Clinica X</string>
     <string name="action_settings">Opciones</string>
     <string name="title_activity_navegation">NavegationActivity</string>
+    <string name="title_activity_sesion">Datos</string>
+    <string name="title_activity_sesion2">Facturación</string>
+    <string name="title_activity_main">Buscador</string>
+    <string name="title_activity_login">Iniciar sesion</string>
+    <string name="title_activity_nav_drawer">Navegación</string>
+    <string name="title_activity_carro_compra">Cesta</string>
+    <string name="title_activity_tool_bar_colapsable">ToolBarColapsable</string>
+    <string name="title_activity_fullscreen">Jhonny Juncal G.</string>
     <string name="navigation_drawer_open">Abrir menu desplegable</string>
     <string name="navigation_drawer_close">Cerrar menu desplegable</string>
-    <string name="title_activity_login">Iniciar sesion</string>
-
-    <!-- Strings related to login -->
     <string name="prompt_email">Correo</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="action_sign_in">Acceso o registro</string>
@@ -16,17 +21,11 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">Este campo es obligatorio</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="login_usuario">Login</string>
     <string name="sin_login">Continuar</string>
-    <string name="dummy_content">APLICACION\nDE\nPRUEBA</string>
+    <string name="dummy_content">Así puede ser tu app</string>
     <string name="text_paypal">PayPal</string>
-    <string name="buy">Comprar</string>
-    <string name="amount">10.99</string>
-    <string name="amount2">21.22</string>
-    <string name="amount3">30.00</string>
-    <string name="amount4">50</string>
-    <string name="text_nevagacion">Navegacion</string>
+    <string name="text_nevagacion">Navegación</string>
     <string name="action_no_login">Sin login</string>
     <string name="text_colap">Activity colapsable</string>
 </resources>

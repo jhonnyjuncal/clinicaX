@@ -3,8 +3,6 @@ package clinica.jhonny.com.clinicax;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,15 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import clinica.jhonny.com.Util;
+import clinica.jhonny.com.adapters.CustomAdapterListaProductos;
+import clinica.jhonny.com.model.Producto;
 
 
-public class NavDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Created by jhonny on 16/03/2016.
+ */
+public class ListaProductosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ListView lista = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_nav_drawer);
+            setContentView(R.layout.activity_nav_lista_productos);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -30,7 +41,11 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(NavDrawerActivity.this, CarroCompraActivity.class);
+                    // muestra un mensaje en la parte inferior de la pantalla
+                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                    // mostrar la ventana del carro de la compra
+                    Intent intent = new Intent(ListaProductosActivity.this, CarroCompraActivity.class);
                     startActivity(intent);
                 }
             });
@@ -44,18 +59,18 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
+            ArrayList<Producto> productos = Util.getListaDeProductos(this);
+            if(productos != null && !productos.isEmpty()) {
+                lista = (ListView) findViewById(R.id.listView);
+                CustomAdapterListaProductos customAdapter = new CustomAdapterListaProductos(this, productos);
+                lista.setAdapter(customAdapter);
+
+            }else {
+                Toast.makeText(this, "Cesta vacia", Toast.LENGTH_SHORT).show();
+            }
+
         }catch(Exception ex) {
             ex.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -94,9 +109,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             } else if (id == R.id.nav_continuar) {
                 destino = MainActivity.class;
             } else if (id == R.id.nav_paypal) {
-                destino = PaypalActivity.class;
-            } else if (id == R.id.nav_navegacion) {
-                destino = NavDrawerActivity.class;
+                destino = ListaProductosActivity.class;
             } else if (id == R.id.nav_colapsable) {
                 destino = ToolBarColapsable.class;
             } else if (id == R.id.nav_share) {

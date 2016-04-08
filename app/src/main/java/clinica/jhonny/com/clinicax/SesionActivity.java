@@ -78,9 +78,7 @@ public class SesionActivity extends AppCompatActivity implements NavigationView.
             } else if (id == R.id.nav_continuar) {
                 destino = MainActivity.class;
             } else if (id == R.id.nav_paypal) {
-                destino = PaypalActivity.class;
-            } else if (id == R.id.nav_navegacion) {
-                destino = NavDrawerActivity.class;
+                destino = ListaProductosActivity.class;
             } else if (id == R.id.nav_colapsable) {
                 destino = ToolBarColapsable.class;
             } else if (id == R.id.nav_share) {
